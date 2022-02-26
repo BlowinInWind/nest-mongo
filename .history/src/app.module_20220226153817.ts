@@ -13,3 +13,4 @@ const devPath = path.resolve(process.cwd(), '.env');
   providers: [AppService],
 })
 export class AppModule {}
+console.log(path);
