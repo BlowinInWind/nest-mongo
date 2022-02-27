@@ -3,10 +3,21 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GlobalService } from './global.service';
 import { GlobalController } from './global.controller';
 import { MongooseModule } from '@nestjs/mongoose';
+import { RedisModule } from '@nestjs-modules/ioredis';
 
 @Global()
 @Module({
   imports: [
+    RedisModule.forRootAsync({
+      useFactory: (configService: ConfigService) => ({
+        config: {
+          host: configService.get<any>('REDIS_HOST'),
+          port: configService.get<any>('REDIS_PORT'),
+        },
+      }),
+      inject: [ConfigService],
+    }),
+
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
