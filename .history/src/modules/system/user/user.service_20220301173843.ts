@@ -20,14 +20,14 @@ export class UserService {
 
   // 根据用户名密码验证用户
   async findUserByNameAndPasswd(username: string, passwd: string) {
-    return await this.userModel
-      .findOne({ username, passwd })
-      .lean()
-      .exec();
+    return await this.userModel.findOne({ username, passwd }).exec();
   }
 
   // 根据id获取用户名
   async findUserById(id): Promise<User> {
+    const iddd = await this.userModel.findOne({ _id: id });
+    console.log(iddd);
+    console.log(iddd.lean());
     const result = await this.userModel.findOne({ _id: id }).lean();
     if (!result) {
       throw new ApiException('请求参数错误');

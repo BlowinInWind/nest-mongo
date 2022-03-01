@@ -4,8 +4,17 @@
 import * as session from 'express-session';
 import * as passport from 'passport';
 import { ConfigService } from '@nestjs/config';
-const MongoStore = require('connect-mongo');
+// import MongoStore from 'connect-mongo';
+import MongoStore from 'connect-mongo';
+import mongoose from 'mongoose';
+import { MongoClient } from 'mongodb';
 
+import {
+  Collection,
+  MongoClient,
+  MongoClientOptions,
+  WriteConcernSettings,
+} from 'mongodb';
 export const setupSession = async (app) => {
   const configService = app.get(ConfigService);
 
@@ -28,18 +37,15 @@ export const setupSession = async (app) => {
   const host = configService.get('DB_HOST');
   const port = configService.get('DB_PORT');
   const dbDatabase = configService.get('DB_DATABASE');
-
+  mongoose.connect(`mongodb://${username}:${password}@${host}:${port}`);
+  const clientPromise: MongoClient = new Promise(function (resolve, reject) {
+    resolve(mongoose.connection.getClient());
+    reject(new Error('MongoClient Error'));
+  });
   app.use(
     session({
       secret: configService.get('ICSUNI_COOKIE_SECRET'),
-      store: new MongoStore({
-        // uri: `mongodb://${username}:${password}@${host}:${port}`,
-        // databaseName: dbDatabase,
-        // collection: 'sessions',
-        mongoUrl: `mongodb://${username}:${password}@${host}:${port}`,
-        dbName: dbDatabase,
-        collectionName: 'sessions',
-      }),
+      store: MongoStore.create({ clientPromise }),
       name: configService.get('ICSUNI_COOKIE_NAME'),
       resave: false,
       saveUninitialized: false,

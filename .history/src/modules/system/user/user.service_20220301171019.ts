@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ApiException } from 'src/common/exceptions';
-import { UserDocument, User } from './schema/user.schema';
+import { UserDocument } from './schema/user.schema';
 
 @Injectable()
 export class UserService {
@@ -12,10 +12,7 @@ export class UserService {
 
   // 获取用户列表
   async list() {
-    return await this.userModel
-      .find({})
-      .lean()
-      .exec();
+    return await this.userModel.find({}).exec();
   }
 
   // 根据用户名密码验证用户
@@ -27,8 +24,9 @@ export class UserService {
   }
 
   // 根据id获取用户名
-  async findUserById(id): Promise<User> {
-    const result = await this.userModel.findOne({ _id: id }).lean();
+  async findUserById(id): Promise<UserDocument> {
+    const result = await this.userModel.findOne({ _id: id });
+
     if (!result) {
       throw new ApiException('请求参数错误');
     }

@@ -4,7 +4,13 @@
 import * as session from 'express-session';
 import * as passport from 'passport';
 import { ConfigService } from '@nestjs/config';
-const MongoStore = require('connect-mongo');
+// import MongoStore from 'connect-mongo';
+const dd = require('connect-mongo');
+// @ts-ignore
+import MongoStore1, { defalut } from 'connect-mongo';
+console.log(MongoStore1);
+console.log(dd);
+console.log(defalut);
 
 export const setupSession = async (app) => {
   const configService = app.get(ConfigService);
@@ -32,7 +38,7 @@ export const setupSession = async (app) => {
   app.use(
     session({
       secret: configService.get('ICSUNI_COOKIE_SECRET'),
-      store: new MongoStore({
+      store: new MongoStore1({
         // uri: `mongodb://${username}:${password}@${host}:${port}`,
         // databaseName: dbDatabase,
         // collection: 'sessions',

@@ -4,12 +4,14 @@
 import * as session from 'express-session';
 import * as passport from 'passport';
 import { ConfigService } from '@nestjs/config';
+// import MongoStore from 'connect-mongo';
 const MongoStore = require('connect-mongo');
+const MongoDBStore = require('connect-mongodb-session')(session);
 
 export const setupSession = async (app) => {
+  // const RedisStore = createRedisStore(session);
   const configService = app.get(ConfigService);
 
-  // const RedisStore = createRedisStore(session);
   // const redisClient = new Redis({
   //   host: configService.get('REDIS_HOST'),
   //   port: configService.get('REDIS_PORT'),

@@ -4,7 +4,10 @@
 import * as session from 'express-session';
 import * as passport from 'passport';
 import { ConfigService } from '@nestjs/config';
-const MongoStore = require('connect-mongo');
+// import MongoStore from 'connect-mongo';
+// @ts-ignore
+import MongoStore1, { defalut } from 'connect-mongo';
+console.log(MongoStore);
 
 export const setupSession = async (app) => {
   const configService = app.get(ConfigService);

@@ -4,12 +4,12 @@
 import * as session from 'express-session';
 import * as passport from 'passport';
 import { ConfigService } from '@nestjs/config';
-const MongoStore = require('connect-mongo');
+import MongoStore from 'connect-mongo';
 
 export const setupSession = async (app) => {
+  // const RedisStore = createRedisStore(session);
   const configService = app.get(ConfigService);
 
-  // const RedisStore = createRedisStore(session);
   // const redisClient = new Redis({
   //   host: configService.get('REDIS_HOST'),
   //   port: configService.get('REDIS_PORT'),
@@ -33,19 +33,18 @@ export const setupSession = async (app) => {
     session({
       secret: configService.get('ICSUNI_COOKIE_SECRET'),
       store: new MongoStore({
-        // uri: `mongodb://${username}:${password}@${host}:${port}`,
-        // databaseName: dbDatabase,
-        // collection: 'sessions',
+        stringify: false,
         mongoUrl: `mongodb://${username}:${password}@${host}:${port}`,
         dbName: dbDatabase,
         collectionName: 'sessions',
       }),
       name: configService.get('ICSUNI_COOKIE_NAME'),
       resave: false,
+      rolling: true,
       saveUninitialized: false,
       cookie: {
         httpOnly: process.env.ICSUNI_COOKIE_HTTP_ONLY == 'false' ? false : true,
-        maxAge: +configService.get('ICSUNI_COOKIE_MAX_AGE'),
+        maxAge: configService.get('ICSUNI_COOKIE_MAX_AGE'),
       },
     }),
   );

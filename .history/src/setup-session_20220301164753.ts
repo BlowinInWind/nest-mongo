@@ -4,7 +4,9 @@
 import * as session from 'express-session';
 import * as passport from 'passport';
 import { ConfigService } from '@nestjs/config';
-const MongoStore = require('connect-mongo');
+// import MongoStore from 'connect-mongo';
+import MongoStore from 'connect-mongo';
+import mongoose from 'mongoose';
 
 export const setupSession = async (app) => {
   const configService = app.get(ConfigService);
@@ -28,6 +30,7 @@ export const setupSession = async (app) => {
   const host = configService.get('DB_HOST');
   const port = configService.get('DB_PORT');
   const dbDatabase = configService.get('DB_DATABASE');
+  mongoose.connect(`mongodb://${username}:${password}@${host}:${port}`);
 
   app.use(
     session({
