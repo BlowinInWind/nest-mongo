@@ -28,7 +28,7 @@ export class ResponseTransformInterceptor implements NestInterceptor {
 
         const response = context.switchToHttp().getResponse();
         response.header('Content-Type', 'application/json; charset=utf-8');
-        return AjaxResult.success({ data: data });
+        return AjaxResult.success(data);
       }),
       // catchError((err) => {
       //   throw new BadGatewayException();
