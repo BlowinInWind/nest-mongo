@@ -1,11 +1,11 @@
 import { NestFactory } from '@nestjs/core';
+import { Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { setupSession } from './setup-session';
 import { AllExceptionFilter } from 'src/common/filters';
 import { ResponseTransformInterceptor } from 'src/common/interceptors';
 import { ValidationPipe } from 'src/common/pipes';
 import helmet from 'helmet';
-import { Reflector } from '@nestjs/core';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
