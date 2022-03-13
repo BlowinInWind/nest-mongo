@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Req, Session } from '@nestjs/common';
 import { UserService } from './user.service';
 import { FindOneUserParams } from './dto/user.dto';
 import { DataObj } from 'src/common/class';
@@ -9,7 +9,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get('list')
-  async list() {
+  async list(@Session() session, @Req() req) {
     const result = await this.userService.list();
     return new DataObj(result);
   }
