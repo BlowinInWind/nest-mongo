@@ -5,7 +5,8 @@ import {
   NestInterceptor,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { AjaxResult } from '../class';
 import { KEEP_KEY } from '../constants';
 

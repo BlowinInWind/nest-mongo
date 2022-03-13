@@ -12,6 +12,7 @@ import { ApiException } from '../exceptions';
 export class AllExceptionFilter<T> implements ExceptionFilter {
   catch(exception: T, host: ArgumentsHost) {
     const response = host.switchToHttp().getResponse();
+    // const request = host.switchToHttp().getRequest();
     const { status, result } = this.errorResult(exception);
 
     response.header('Content-Type', 'application/json; charset=utf-8');
