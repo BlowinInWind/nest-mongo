@@ -6,6 +6,8 @@ import { GlobalController } from './global.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { RedisModule } from '@nestjs-modules/ioredis';
 import { AuthenticatedGuard } from 'src/common/guards';
+// import { AllExceptionFilter } from 'src/common/filters';
+// import { LoggerInterceptor } from 'src/common/interceptors';
 
 @Global()
 @Module({
@@ -45,6 +47,16 @@ import { AuthenticatedGuard } from 'src/common/guards';
       provide: APP_GUARD,
       useClass: AuthenticatedGuard,
     },
+
+    // {
+    //   provide: APP_FILTER,
+    //   useClass: AllExceptionFilter,
+    // },
+
+    // {
+    //   provide: APP_INTERCEPTOR,
+    //   useClass: LoggerInterceptor,
+    // },
   ],
 })
 export class GlobalModule {}

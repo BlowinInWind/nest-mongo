@@ -4,10 +4,10 @@ import {
   Post,
   Req,
   UseGuards,
-  Session,
   Get,
   Query,
   Redirect,
+  Session,
 } from '@nestjs/common';
 import { LocalAuthGuard, AuthenticatedGuard } from '../../common/guards';
 import { LoginDto } from './dto/login.dto';
@@ -28,13 +28,8 @@ export class LoginController {
   @Post('login')
   @Public()
   @UseGuards(LocalAuthGuard)
-  async login(
-    @Body() loginDto: LoginDto,
-    @Req() req: Request,
-    @Session() session,
-  ) {
-    const result = await this.loginService.login(loginDto, req);
-    session.logIn = true;
+  async login(@Req() req: Request, @Session() session) {
+    const result = await this.loginService.login(req, session);
     return new DataObj(result);
   }
 
