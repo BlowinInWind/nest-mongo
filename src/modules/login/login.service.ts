@@ -38,7 +38,7 @@ export class LoginService {
 
     session.login = true;
     this.generateSessionRBACData(session, user);
-    this.getPermissionsByUsername(user.username, user.uOrgName);
+    // this.getPermissionsByUsername(user.username, user.uOrgName);
 
     return user;
   }

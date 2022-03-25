@@ -38,6 +38,7 @@ export const setupSession = async (app) => {
       store: new MongoStore({
         mongoUrl: `mongodb://${username}:${password}@${host}:${port}`,
         dbName: dbDatabase,
+        stringify: false,
         collectionName: 'sessions',
       }),
       name: configService.get('ICSUNI_COOKIE_NAME'),

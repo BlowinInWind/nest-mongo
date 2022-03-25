@@ -17,6 +17,7 @@ import { Public } from 'src/common/decorators';
 import { DataObj } from 'src/common/class';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
+import { ApiExtraModels } from '@nestjs/swagger';
 
 @Controller()
 export class LoginController {
