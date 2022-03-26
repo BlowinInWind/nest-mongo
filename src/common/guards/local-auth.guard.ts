@@ -6,6 +6,8 @@ export class LocalAuthGuard extends AuthGuard('local') {
   context: ExecutionContext;
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
+    console.log('auth prev');
+
     this.context = context;
     const result = (await super.canActivate(context)) as boolean;
     const request = await context.switchToHttp().getRequest();

@@ -7,6 +7,8 @@ import { values } from 'lodash';
 @Injectable()
 export class ValidationPipe implements PipeTransform {
   async transform(value: any, { metatype }: ArgumentMetadata) {
+    console.log('pipe prev');
+
     if (!metatype || !this.toValidate(metatype)) {
       return value;
     }

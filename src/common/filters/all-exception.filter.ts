@@ -11,6 +11,7 @@ import { ApiException } from '../exceptions';
 @Catch()
 export class AllExceptionFilter<T> implements ExceptionFilter {
   catch(exception: T, host: ArgumentsHost) {
+    console.log('filter prev');
     const response = host.switchToHttp().getResponse();
     // const request = host.switchToHttp().getRequest();
     const { status, result } = this.errorResult(exception);

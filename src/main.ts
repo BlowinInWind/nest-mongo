@@ -6,6 +6,7 @@ import { AllExceptionFilter } from 'src/common/filters';
 import { ResponseTransformInterceptor } from 'src/common/interceptors';
 import { ValidationPipe } from 'src/common/pipes';
 import helmet from 'helmet';
+import { LogMiddleware } from './common/middlewares';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -17,6 +18,8 @@ async function bootstrap() {
   app.enableCors();
   // Web漏洞的
   app.use(helmet());
+
+  app.use(LogMiddleware);
 
   // 设置全局过滤器
   app.useGlobalFilters(new AllExceptionFilter());

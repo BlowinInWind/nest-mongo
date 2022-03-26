@@ -15,8 +15,11 @@ export class ResponseTransformInterceptor implements NestInterceptor {
   constructor(private readonly reflector: Reflector) {}
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+    console.log('Interceptor prev');
     return next.handle().pipe(
       map((data) => {
+        console.log('Interceptor next');
+
         // getHandler 值将覆盖 getClass上面的值
         const keep = this.reflector.getAllAndOverride<boolean>(KEEP_KEY, [
           context.getHandler(),
