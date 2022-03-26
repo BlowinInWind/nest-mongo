@@ -36,18 +36,19 @@ export const setupSession = async (app) => {
     session({
       secret: configService.get('ICSUNI_COOKIE_SECRET'),
       store: new MongoStore({
-        // uri: `mongodb://${username}:${password}@${host}:${port}`,
-        // databaseName: dbDatabase,
-        // collection: 'sessions',
         mongoUrl: `mongodb://${username}:${password}@${host}:${port}`,
         dbName: dbDatabase,
+        stringify: false,
         collectionName: 'sessions',
       }),
       name: configService.get('ICSUNI_COOKIE_NAME'),
       resave: false,
       saveUninitialized: false,
       cookie: {
-        httpOnly: process.env.ICSUNI_COOKIE_HTTP_ONLY == 'false' ? false : true,
+        httpOnly:
+          configService.get('ICSUNI_COOKIE_HTTP_ONLY') == 'false'
+            ? false
+            : true,
         maxAge: +configService.get('ICSUNI_COOKIE_MAX_AGE'),
       },
     }),
