@@ -28,6 +28,7 @@ async function bootstrap() {
   // Web漏洞的
   app.use(helmet());
 
+  // 中间件
   app.use(LogMiddleware);
 
   // 设置全局过滤器
@@ -43,15 +44,16 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   const config = new DocumentBuilder()
+    .addBasicAuth()
+    // .addBearerAuth({ type: 'http', name: 'token' })
     .setTitle('Nest Mongo')
     .setDescription('The Nest Mongo API description')
     .setVersion('1.0')
     .addTag('Nest Mongo')
     .build();
+
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document, {
-    customCss: '../node_modules/swagger-ui-dist/swagger-ui.css',
-  });
+  SwaggerModule.setup('api', app, document);
 
   await app.listen(3333);
 }

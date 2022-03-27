@@ -4,6 +4,7 @@ import * as mongoose from 'mongoose';
 import { Group } from '../../groups/schema/group.schema';
 import { Role } from '../../roles/schema/role.schema';
 import { Rule } from '../../rules/schema/rule.schema';
+import { ApiProperty } from '@nestjs/swagger';
 
 interface Staff {
   name?: string;
@@ -17,6 +18,9 @@ export class User {
     // select: false,
     type: mongoose.Schema.Types.ObjectId,
   })
+  @ApiProperty({
+    type: mongoose.Schema.Types.ObjectId,
+  })
   _id: ObjectId;
 
   // 用户名
@@ -25,6 +29,9 @@ export class User {
     required: true,
     unique: true,
   })
+  @ApiProperty({
+    type: String,
+  })
   username: string;
 
   // 密码
@@ -32,20 +39,32 @@ export class User {
     type: String,
     required: true,
   })
+  @ApiProperty({
+    type: String,
+  })
   passwd: string;
 
   @Prop({
     type: String,
     required: true,
   })
+  @ApiProperty({
+    type: String,
+  })
   uOrgName: string;
 
   @Prop({
     type: Boolean,
   })
+  @ApiProperty({
+    type: Boolean,
+  })
   isDimission?: boolean;
 
   @Prop({
+    type: Boolean,
+  })
+  @ApiProperty({
     type: Boolean,
   })
   isInitial?: boolean;
@@ -57,6 +76,9 @@ export class User {
     type: [mongoose.Schema.Types.ObjectId],
     ref: 'Group',
   })
+  @ApiProperty({
+    type: [mongoose.Schema.Types.ObjectId],
+  })
   userGroups: Group[];
 
   @Prop({
@@ -64,12 +86,18 @@ export class User {
     type: [mongoose.Schema.Types.ObjectId],
     ref: 'Role',
   })
+  @ApiProperty({
+    type: [mongoose.Schema.Types.ObjectId],
+  })
   uRoles: Role[];
 
   @Prop({
     default: [],
     type: [mongoose.Schema.Types.ObjectId],
     ref: 'Rule',
+  })
+  @ApiProperty({
+    type: [mongoose.Schema.Types.ObjectId],
   })
   uRules: Rule[];
 }

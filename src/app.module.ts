@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -12,6 +12,7 @@ import { GroupsModule } from './modules/system/groups/groups.module';
 import { RolesModule } from './modules/system/roles/roles.module';
 import { RulesModule } from './modules/system/rules/rules.module';
 import { PermissionsModule } from './modules/system/permissions/permissions.module';
+import { LogMiddleware1 } from './common/middlewares';
 
 const devPath = path.resolve(process.cwd(), '.env');
 
@@ -31,4 +32,8 @@ const devPath = path.resolve(process.cwd(), '.env');
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LogMiddleware1).forRoutes('*');
+  }
+}

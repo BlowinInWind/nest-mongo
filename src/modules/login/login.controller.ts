@@ -11,15 +11,34 @@ import {
 } from '@nestjs/common';
 import { LocalAuthGuard, AuthenticatedGuard } from '../../common/guards';
 import { LoginDto } from './dto/login.dto';
+import { PaginatedDto } from '../../common/dto/paginated.dto';
 import { LoginService } from './login.service';
 import { Request } from 'express';
-import { Public } from 'src/common/decorators';
+import {
+  ApiDataResponse,
+  typeEnum,
+  ApiPaginatedResponse,
+  Public,
+} from 'src/common/decorators';
 import { DataObj } from 'src/common/class';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
-import { ApiExtraModels } from '@nestjs/swagger';
+import {
+  getSchemaPath,
+  ApiConsumes,
+  ApiCreatedResponse,
+  ApiExtraModels,
+  ApiForbiddenResponse,
+  ApiHeader,
+  ApiOkResponse,
+  ApiProperty,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import { User } from '../system/user/schema/user.schema';
 
 @Controller()
+@ApiTags('登录')
 export class LoginController {
   constructor(
     private readonly loginService: LoginService,
@@ -29,7 +48,16 @@ export class LoginController {
   @Post('login')
   @Public()
   @UseGuards(LocalAuthGuard)
-  async login(@Req() req: Request, @Session() session) {
+  // @ApiOkResponse({ type: User })
+  // @ApiPaginatedResponse(User)
+  @ApiDataResponse(typeEnum.object, User)
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
+  // @ApiConsumes('multipart/form-data')
+  async login(
+    @Body() loginDto: LoginDto,
+    @Req() req: Request,
+    @Session() session,
+  ) {
     const result = await this.loginService.login(req, session);
     return new DataObj(result);
   }
